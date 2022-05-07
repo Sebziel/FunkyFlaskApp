@@ -1,14 +1,16 @@
-def funkcja():
-    global Zmienna
-    Zmienna = 0
-    print(Zmienna)
-    Zmienna += 1
-    print(Zmienna)
-    return Zmienna
-    Some test this time from testbranch
+from model import db
 
+cardnr = 0
+print(str(db))
 
+def card_view():
+    global cardnr
+    card = db[cardnr]
+    return card
 
-print(funkcja())
+print(cardnr)
 
-print(Zmienna)
+while cardnr < len(db):
+    print(card_view())
+    cardnr += 1
+    print(str(cardnr) + "Numer z while'a")
