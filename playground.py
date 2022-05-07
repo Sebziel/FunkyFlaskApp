@@ -5,6 +5,7 @@ def funkcja():
     Zmienna += 1
     print(Zmienna)
     return Zmienna
+    Some test
 
 
 
