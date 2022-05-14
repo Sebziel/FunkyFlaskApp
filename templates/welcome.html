@@ -6,10 +6,38 @@
 </head>
 <body>
 
-    <h1>My First Heading</h1>
-    <p>My first paragraph.</p>
-    <p>My second paragraph.</p>
-    <p>{{message}}</p>
+    <h1>Welcome to my site</h1>
+    <p>Created for training purposes of docker, elasticsearch, jenkins and other DevOps tools</p>
+    <p> The site and it's subsites have been visited {{ counter }} times.</p>
+    <p>The counter value is being stored in a Json file, and being updated witch each view function call using below code: </p>
+    <pre>    
+        <code>
+            def get_counter_data():
+            with open("counter.json", "r") as counterJson:
+                data = json.load(counterJson)
+            return data
+        </code>
+        
+        <code>
+            def update_counter():
+                        value = get_counter_data()
+                        value["counter"] += 1
+                        with open("counter.json", "w") as jsonfile:
+                                json.dump(value, jsonfile)
+        </code>
+    </pre>
+    <p>The page was served at {{ current_time }}</p>
+
+    <h2>Cards</h2>
+    <ul>
+        {% for card in cards %}
+            <li>
+                <a href="{{ url_for('card_view', index=loop.index0) }}">
+                    {{ card.question }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 
 
 </body>
