@@ -6,8 +6,15 @@ available_localizations = {"1": "Sypialnia", "2":"biuro"}
 #Zaciaga dane z Json'a
 def get_flowers_data():
     with open("Flowers.json", "r") as FlowersJson:
-        data = json.load(FlowersJson)
-    return data
+        allFlowers = json.load(FlowersJson)
+    return allFlowers
+
+#DO WYRZUCENIA, WYCIAGANIE LISTY WAROSCI DLA NAZW
+#lista1 = get_flowers_data()
+#stobj = lista1[0]
+#
+#for object1 in stobj:
+#    print (stobj[object1])
 
 #Zwraca liste wszystkich kwiatkow 
 def get_flowers_list():
@@ -48,5 +55,5 @@ def get_location_from_user():
         return "Bledna lokalizacja, nalezy podac numer lokalizacji"
 
 
-localization = get_location_from_user()
-get_flowers_list_per_location(localization)
+#localization = get_location_from_user()
+#get_flowers_list_per_location(localization)

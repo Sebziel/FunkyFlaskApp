@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - flower</title>
+</head>
+<body>
+
+    <h1>The flower object</h1>
+    <p> {{ flower["Nazwa"] }} </p>
+        {% for key, value in flower.items() %}
+        <li>
+        {{key}} : {{value}}
+        </li>
+        {% endfor %}
+
+
+    <p>
+        <button>
+            <a href="{{ url_for('welcome')}}">
+                Take me home
+            </a>
+        </button>
+    </p>
+
+
+</body>
+</html>

@@ -39,6 +39,16 @@
         {% endfor %}
     </ul>
 
+    <h2>Flowers </h2>
+    <ul>
+        {% for flower in allFlowers %}
+            <li>
+                <a href="{{ url_for('flower_view', dindex=flower) }}">
+                    {{ flower}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 
 </body>
 </html>
