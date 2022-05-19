@@ -1,6 +1,6 @@
 from datetime import datetime
-from flask import Flask, render_template, abort
-from model import db , get_counter_value , update_counter
+from flask import (Flask, render_template, abort, redirect, url_for, request) 
+from model import db , save_db, get_counter_value , update_counter
 import FlowersUtilities
 import logging
 
@@ -38,10 +38,18 @@ def api_card_view(index):
     except IndexError:
         abort(404)
 
-@app.route("/add_card")
+@app.route("/add_card", methods=["GET", "POST"])
 def add_card():
     update_counter()
-    return render_template("add_card.html")
+    if request.method == "POST":
+        card = {"question": request.form['question'],
+                "answer": request.form['answer']}
+        db.append(card)
+        app.logger.info("Saving new card: " + str(card))
+        save_db()
+        return redirect(url_for('card_view', index=len(db)-1))
+    else:
+        return render_template("add_card.html")
 
 
 @app.route("/FirstPage")
