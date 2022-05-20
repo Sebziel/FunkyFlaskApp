@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} 
+Flowers
+{% endblock %}
+
+{% block content%}
+
+    <h1>The flower list</h1>
+    <p>{{ flowerlist }}</p>
+    <p>
+        <button>
+            <a href="{{ url_for('welcome')}}">
+                Take me home
+            </a>
+        </button>
+    </p>
+
+{% endblock %}
