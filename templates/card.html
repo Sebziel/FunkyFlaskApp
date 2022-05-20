@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome - Card</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} 
+Card
+{% endblock %}
+
+{% block content%}
 
     <h1>The card object</h1>
     <p>{{card.question}}</p>
@@ -41,6 +41,4 @@
         </button>
     </p>
 
-
-</body>
-</html>
+{% endblock %}

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} 
+Welcome
+{% endblock %}
+
+{% block content%}
 
     <h1>Welcome to my site</h1>
     <p>Created for training purposes of docker, elasticsearch, jenkins and other DevOps tools</p>
@@ -50,5 +50,4 @@
         {% endfor %}
     </ul>
 
-</body>
-</html>
+{% endblock %}

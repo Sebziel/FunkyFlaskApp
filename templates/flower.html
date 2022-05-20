@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome - flower</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} 
+Flower
+{% endblock %}
+
+{% block content%}
 
     <h1>The flower object</h1>
     <p> {{ flower["Nazwa"] }} </p>
@@ -23,6 +23,4 @@
         </button>
     </p>
 
-
-</body>
-</html>
+{% endblock %}
