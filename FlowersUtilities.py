@@ -5,7 +5,7 @@ available_localizations = {"1": "Sypialnia", "2":"biuro"}
 
 #Zaciaga dane z Json'a
 def get_flowers_data():
-    with open("Flowers.json", "r") as FlowersJson:
+    with open("JsonData/Flowers.json", "r") as FlowersJson:
         allFlowers = json.load(FlowersJson)
     return allFlowers
 

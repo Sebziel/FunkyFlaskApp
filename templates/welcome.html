@@ -13,7 +13,7 @@ Welcome
     <pre>    
         <code>
             def get_counter_data():
-            with open("counter.json", "r") as counterJson:
+            with open("JsonData/counter.json", "r") as counterJson:
                 data = json.load(counterJson)
             return data
         </code>
@@ -22,7 +22,7 @@ Welcome
             def update_counter():
                         value = get_counter_data()
                         value["counter"] += 1
-                        with open("counter.json", "w") as jsonfile:
+                        with open("JsonData/counter.json", "w") as jsonfile:
                                 json.dump(value, jsonfile)
         </code>
     </pre>
