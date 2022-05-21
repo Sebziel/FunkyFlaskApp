@@ -1,18 +1,18 @@
 import json
 
 def load_db():
-    with open("dbmock.json") as f:
+    with open("JsonData/dbmock.json") as f:
         return json.load(f)
 
 def save_db():
-    with open("dbmock.json", "w") as f:
+    with open("JsonData/dbmock.json", "w") as f:
         return json.dump(db, f)
 
 db = load_db()
 
 
 def get_counter_data():
-    with open("counter.json", "r") as counterJson:
+    with open("JsonData/counter.json", "r") as counterJson:
         data = json.load(counterJson)
     return data
 
@@ -23,6 +23,6 @@ def get_counter_value():
 def update_counter():
     value = get_counter_data()
     value["counter"] += 1
-    with open("counter.json", "w") as jsonfile:
+    with open("JsonData/counter.json", "w") as jsonfile:
         json.dump(value, jsonfile)
     return
