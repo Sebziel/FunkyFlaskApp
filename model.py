@@ -10,6 +10,11 @@ def save_db():
 
 db = load_db()
 
+def load_tech_details():
+    with open("JsonData/techDetails.json") as f:
+        return json.load(f)
+
+techList = load_tech_details()
 
 def get_counter_data():
     with open("JsonData/counter.json", "r") as counterJson:

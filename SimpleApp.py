@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import (Flask, render_template, abort, redirect, url_for, request) 
-from model import db , save_db, get_counter_value , update_counter
+from model import db, techList, save_db, get_counter_value , update_counter
 import FlowersUtilities
 import logging
 
@@ -93,5 +93,15 @@ def flower_view(dindex):
         flowerlist = specificFlower[0] #Wyciaga zerowy obiekt ze wzgledu na strukture danych w Jsonie
         flower = flowerlist[dindex]
         return render_template("flower.html", flower=flower)
+    except IndexError:
+        abort(404)
+
+
+@app.route("/techDetails")
+def techDetails():
+    update_counter()
+    app.logger.debug("Serving TechDetails page")
+    try:
+        return render_template("techDetails.html", techList=techList)
     except IndexError:
         abort(404)
