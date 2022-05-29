@@ -1,0 +1,128 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Create an AMI from an EC2 instance.",
+    "Parameters": {
+        "ImageId": {
+            "Description": "Image ID for base EC2 instance.",
+            "Type": "AWS::EC2::Image::Id",
+            "Default": "ami-02584c1c9d05efa69"
+        },
+        "InstanceType": {
+            "Description": "Instance type to launch EC2 instances.",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.nano"
+            ]
+        }
+    },
+    "Resources": {
+        "SSHSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable SSH access via port 22",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 22,
+                        "IpProtocol": "tcp",
+                        "ToPort": 22
+                    }
+                ]
+            }
+        },
+        "WebSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable HTTP access via user defined port",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 8080,
+                        "IpProtocol": "tcp",
+                        "ToPort": 8080
+                    }
+                ]
+            }
+        },
+        "JenkinsRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Description": "Role from Jenkins stack",
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+                ],
+                "RoleName": "IAMJenkinsStackRole"
+            }
+        },
+        "InstanceProfileRole": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "InstanceProfileName": "JenkinsInstanceProfile",
+                "Roles": [
+                    {
+                        "Ref": "JenkinsRole"
+                    }
+                ]
+            }
+        },
+        "S3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "DeletionPolicy": "Delete",
+            "Properties": {
+                "BucketName": "sz-cf-s3-bucket"
+            }
+        },
+        "Instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Ref": "ImageId"
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "IamInstanceProfile": {
+                    "Ref": "InstanceProfileRole"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "SSHSecurityGroup"
+                    },
+                    {
+                        "Ref": "WebSecurityGroup"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Sub": "#!/bin/bash -x\n    sudo apt-get update -y\n    touch /home/ubuntu/install.log\n    echo \"START Java Installation\" >> /home/ubuntu/install.log\n    sudo apt install default-jre -y >> /home/ubuntu/install.log\n    sudo apt install default-jdk -y >> /home/ubuntu/install.log\n    echo \"END Java Installation\" >> /home/ubuntu/install.log\n    echo \"=====================\" >> /home/ubuntu/install.log\n    echo \"\" >> /home/ubuntu/install.log\n    \n    echo \"START Jenkins Installation\" >> /home/ubuntu/install.log\n    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null\n    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null\n    sudo apt-get update\n    sudo apt-get install jenkins -y >> /home/ubuntu/install.log\n    echo \"END Jenkins Installation\" >> /home/ubuntu/install.log\n    echo \"START awscli Installation\" >> /home/ubuntu/install.log\n    sudo apt install awscli -y >> /home/ubuntu/install.log\n    echo \"END awscli Installation\" >> /home/ubuntu/install.log\n "
+                    }
+                },
+                "KeyName": "JenkinsServerKey",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Jenkins AMI"
+                    }
+                ]
+            }
+        }
+    }
+}
