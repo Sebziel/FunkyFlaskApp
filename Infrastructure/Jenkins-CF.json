@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Create an AMI from an EC2 instance.",
+    "Description": "Create an EC2 instance. With verbose packages installation logging",
     "Parameters": {
         "ImageId": {
             "Description": "Image ID for base EC2 instance.",
@@ -42,6 +42,20 @@
                         "FromPort": 8080,
                         "IpProtocol": "tcp",
                         "ToPort": 8080
+                    }
+                ]
+            }
+        }, 
+        "FlaskSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable flask port access via user defined port",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 5000,
+                        "IpProtocol": "tcp",
+                        "ToPort": 5000
                     }
                 ]
             }
@@ -107,12 +121,15 @@
                         "Ref": "SSHSecurityGroup"
                     },
                     {
+                        "Ref": "FlaskSecurityGroup"
+                    },
+                    {
                         "Ref": "WebSecurityGroup"
                     }
                 ],
                 "UserData": {
                     "Fn::Base64": {
-                        "Fn::Sub": "#!/bin/bash -x\n    sudo apt-get update -y\n    touch /home/ubuntu/install.log\n    echo \"START Java Installation\" >> /home/ubuntu/install.log\n    sudo apt install default-jre -y >> /home/ubuntu/install.log\n    sudo apt install default-jdk -y >> /home/ubuntu/install.log\n    echo \"END Java Installation\" >> /home/ubuntu/install.log\n    echo \"=====================\" >> /home/ubuntu/install.log\n    echo \"\" >> /home/ubuntu/install.log\n    \n    echo \"START Jenkins Installation\" >> /home/ubuntu/install.log\n    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null\n    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null\n    sudo apt-get update\n    sudo apt-get install jenkins -y >> /home/ubuntu/install.log\n    echo \"END Jenkins Installation\" >> /home/ubuntu/install.log\n    echo \"START awscli Installation\" >> /home/ubuntu/install.log\n    sudo apt install awscli -y >> /home/ubuntu/install.log\n    echo \"END awscli Installation\" >> /home/ubuntu/install.log\n "
+                        "Fn::Sub": "#!/bin/bash -x\n    sudo apt-get update -y\n    sudo apt install default-jre -y\n   sudo apt install default-jdk -y\n curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null\n    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null\n    sudo apt-get update\n    sudo apt-get install jenkins -y\n    sudo apt install awscli -y\n    sudo apt-get install pip"
                     }
                 },
                 "KeyName": "JenkinsServerKey",
