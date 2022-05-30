@@ -20,7 +20,7 @@ do
         "Generate requirements.txt")
             echo "selected option: $option"
             echo "selected number: $REPLY"
-            pip list >> requirements.txt
+            pip list | awk '{print $1}' | sed '1,2d' > requirements.txt
             ;;
         quit)
             echo "User requested quit"

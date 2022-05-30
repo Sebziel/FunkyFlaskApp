@@ -1,16 +1,14 @@
-Package            Version
------------------- -------
-Babel              2.10.1 
-click              8.1.3  
-Flask              2.1.2  
-importlib-metadata 4.11.3 
-itsdangerous       2.1.2  
-Jinja2             3.1.2  
-MarkupSafe         2.1.1  
-pip                20.0.2 
-pkg-resources      0.0.0  
-pytz               2022.1 
-setuptools         44.0.0 
-Werkzeug           2.1.2  
-wheel              0.34.2 
-zipp               3.8.0  
+Babel
+click
+Flask
+importlib-metadata
+itsdangerous
+Jinja2
+MarkupSafe
+pip
+pkg-resources
+pytz
+setuptools
+Werkzeug
+wheel
+zipp
