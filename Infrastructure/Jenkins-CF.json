@@ -129,7 +129,7 @@
                 ],
                 "UserData": {
                     "Fn::Base64": {
-                        "Fn::Sub": "#!/bin/bash -x\n    sudo apt-get update -y\n    sudo apt install default-jre -y\n    sudo apt install default-jdk -y\n    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null\n    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null\n    sudo apt-get update\n    sudo apt-get install jenkins -y\n    sudo apt install awscli -y\n    sudo apt-get install pip -\n    sudo apt-get install python3-venv -y\n"
+                        "Fn::Sub": "#!/bin/bash -x\n    sudo apt-get update -y\n    sudo apt install default-jre -y\n    sudo apt install default-jdk -y\n    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null\n    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null\n    sudo apt-get update\n    sudo apt-get install jenkins -y\n    sudo apt install awscli -y\n    sudo apt-get install pip -y\n    sudo apt-get install python3-venv -y\n"
                     }
                 },
                 "KeyName": "JenkinsServerKey",
