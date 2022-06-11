@@ -7,13 +7,15 @@
 
 #Todos non-app (must do):
 - Add automated way to synchronize te jenkinshome with s3 
-- Add jnkinsFile to s3
-- 
+- Add jnkinsFile to s3 
 - Try to run the app manually
 - Run initiall tests on CI/CD
+- create local multipass VM
+
 
 #todos non-app (nice to have)
 - Add AMI for base Jenkins + Java + awscli along with separate cloud formation templates
+
 
 #ToDos Done:
 - Add some static images like flower pics, or grahs for 'Tech stuff section"
