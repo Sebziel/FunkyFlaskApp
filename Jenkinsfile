@@ -8,16 +8,19 @@ pipeline {
                 git branch: 'Dev1', url: 'https://github.com/Sebziel/FunkyFlaskApp.git'
 
                 // Create Venv
-                sh 'python3 -m venv my_4environment'
+                sh 'python3 -m venv ~/my_environment'
 
                 // activate Venv
-                sh '. my_4environment/bin/activate'
-                
-                //set env variables
-                sh 'export FLASK_ENV=development'
-                sh 'echo "set up FLASK_ENV = " $FLASK_ENV'
-                sh 'export FLASK_APP=SimpleApp.py'
-                sh 'echo "set up FLASK_APP = " $FLASK_APP'
+                sh '''
+                . ~/my_environment/bin/activate
+                export FLASK_ENV=development
+                echo "set up FLASK_ENV = " $FLASK_ENV
+                export FLASK_APP=SimpleApp.py
+                echo "set up FLASK_APP = " $FLASK_APP
+                pwd
+                pip install -r requirements.txt
+                flask run --host=0.0.0.0 > /dev/null 2>&1 &
+                '''
             }
 
         }

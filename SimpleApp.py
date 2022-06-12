@@ -105,3 +105,6 @@ def techDetails():
         return render_template("techDetails.html", techList=techList)
     except IndexError:
         abort(404)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
