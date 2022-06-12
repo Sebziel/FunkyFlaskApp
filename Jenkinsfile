@@ -4,12 +4,14 @@ pipeline {
     stages {
         stage('Set parameters') {
             steps {
-                properties([
-                    parameters([
-                        choice(
-                            choices: ['Build and Run the Application', 'Restart the App'],
-                            description: '''Build and Run the Application - The action will pull the repository, setup the virtual environment, and run the application. If a previous version was already running, restart will be required. Restart the App - Restart the flask process''',
-                            name: 'Choose Acion')])])
+                script{
+                    properties([
+                        parameters([
+                            choice(
+                                choices: ['Build and Run the Application', 'Restart the App'],
+                                description: '''Build and Run the Application - The action will pull the repository, setup the virtual environment, and run the application. If a previous version was already running, restart will be required. Restart the App - Restart the flask process''',
+                                name: 'Choose Acion')])])
+                }
             }
         }
         stage('PreReqs') {
