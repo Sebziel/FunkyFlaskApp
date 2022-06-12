@@ -10,7 +10,7 @@ pipeline {
                             choice(
                                 choices: ['Build and Run the Application', 'Restart the App'],
                                 description: '''Build and Run the Application - The action will pull the repository, setup the virtual environment, and run the application. If a previous version was already running, restart will be required. Restart the App - Restart the flask process''',
-                                name: 'Choose Acion')])])
+                                name: 'ChooseAction')])])
                 }
             }
         }
@@ -52,6 +52,15 @@ pipeline {
                 echo 'Some postbuild stepst like sending e-mail confrmation will be there'
             }
 
+        }
+        stage('Restart the app') {
+            when {
+                expression {
+                    return params.ChooseAction == "Restart the App"
+                }
+            }
+            steps{
+                echo 'restarting the app'
         }
     }
 }
