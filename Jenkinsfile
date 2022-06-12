@@ -2,6 +2,14 @@ pipeline {
     agent any
 
     stages {
+        stage('Set parameters') {
+            properties([
+                parameters([
+                    choice(
+                        choices: ['Build and Run the Application', 'Restart the App'],
+                        description: '''Build and Run the Application - The action will pull the repository, setup the virtual environment, and run the application. If a previous version was already running, restart will be required. Restart the App - Restart the flask process''',
+                        name: 'Choose Acion')])])
+        }
         stage('PreReqs') {
             steps {
                 // Get some code from a GitHub repository
@@ -27,7 +35,7 @@ pipeline {
                 pip install -r requirements.txt
                 JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py > log.txt 2>&1 &
                 '''
-            }
+            }s
 
         }
         stage('Tests') {
