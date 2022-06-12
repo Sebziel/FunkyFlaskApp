@@ -18,7 +18,7 @@ pipeline {
                 '''
             }
 
-        },
+        }
         stage('Build and run') {
             steps {
                 // activate Venv, install dependencies, run application
@@ -29,12 +29,12 @@ pipeline {
                 '''
             }
 
-        },
+        }
         stage('Tests') {
             steps {
                 echo 'Some Test will hopefully be there'
             }
-        },
+        }
         stage('Post-build') {
             steps {
                 echo 'Some postbuild stepst like sending e-mail confrmation will be there'
