@@ -6,7 +6,7 @@ import logging
 
 
 app = Flask(__name__)
-logging.basicConfig(filename="/home/sebastian/Desktop/Projects/FunkyFlaskAppLogs/record.log", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s : %(message)s')
+logging.basicConfig(filename="record.log", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s : %(message)s')
 
 
 @app.route("/")
