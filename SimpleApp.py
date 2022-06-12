@@ -1,12 +1,12 @@
 from datetime import datetime
 from flask import (Flask, render_template, abort, redirect, url_for, request) 
-from model import db , save_db, get_counter_value , update_counter
+from model import db, techList, save_db, get_counter_value , update_counter
 import FlowersUtilities
 import logging
 
 
 app = Flask(__name__)
-logging.basicConfig(filename="/home/sebastian/Desktop/Projects/FunkyFlaskAppLogs/record.log", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s : %(message)s')
+logging.basicConfig(filename="record.log", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s : %(message)s')
 
 
 @app.route("/")
@@ -16,10 +16,14 @@ def welcome():
     current_time = str(datetime.now())
     counter = get_counter_value()
     app.logger.debug("Setting counter from welcome page to: " + str(counter))
-    allFlowersDict = FlowersUtilities.get_flowers_data()
-    app.logger.debug("gathering data from Flowers.json:" + str(allFlowersDict))
-    allFlowers = allFlowersDict[0]
-    return render_template("welcome.html", cards=db, current_time = current_time, counter = counter , allFlowers = allFlowers)
+    return render_template("welcome.html", current_time = current_time, counter = counter)
+
+@app.route("/card_list")
+def card_list():
+    update_counter()
+    app.logger.debug('Card list Page')
+    return render_template("card_list.html", cards=db)
+
 
 @app.route("/card/<int:index>")
 def card_view(index):
@@ -71,7 +75,10 @@ def flower_list_view():
     app.logger.debug("Serving flowerList page")
     try:
         flowerlist = FlowersUtilities.get_flowers_list()
-        return render_template("flowers.html", flowerlist=flowerlist)
+        allFlowersDict = FlowersUtilities.get_flowers_data()
+        app.logger.debug("gathering data from Flowers.json:" + str(allFlowersDict))
+        allFlowers = allFlowersDict[0]
+        return render_template("flowers.html", flowerlist=flowerlist, allFlowers=allFlowers)
     except IndexError:
         abort(404)
 
@@ -86,5 +93,15 @@ def flower_view(dindex):
         flowerlist = specificFlower[0] #Wyciaga zerowy obiekt ze wzgledu na strukture danych w Jsonie
         flower = flowerlist[dindex]
         return render_template("flower.html", flower=flower)
+    except IndexError:
+        abort(404)
+
+
+@app.route("/techDetails")
+def techDetails():
+    update_counter()
+    app.logger.debug("Serving TechDetails page")
+    try:
+        return render_template("techDetails.html", techList=techList)
     except IndexError:
         abort(404)

@@ -6,7 +6,7 @@
 
 PS3='Choose option: '
 
-select option in "set environment varibles" "Generate requirements.txt" quit
+select option in "set environment varibles" "Generate requirements.txt" "VmSetup" quit
 do
     case $option in
         "set environment varibles" )
@@ -20,7 +20,15 @@ do
         "Generate requirements.txt")
             echo "selected option: $option"
             echo "selected number: $REPLY"
-            pip list >> requirements.txt
+            pip3 freeze > requirements.txt
+            ;;
+        "VmSetup")
+            echo "selected option: $option"
+            echo "selected number: $REPLY"
+            sudo apt-get update -y
+            sudo apt-get install pip -y
+            sudo apt-get install python3-venv -y
+            python3 -m venv my_environment
             ;;
         quit)
             echo "User requested quit"
