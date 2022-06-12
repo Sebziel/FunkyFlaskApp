@@ -13,13 +13,8 @@ pipeline {
                 // activate Venv
                 sh '''
                 . ~/my_environment/bin/activate
-                export FLASK_ENV=development
-                echo "set up FLASK_ENV = " $FLASK_ENV
-                export FLASK_APP=SimpleApp.py
-                echo "set up FLASK_APP = " $FLASK_APP
-                pwd
                 pip install -r requirements.txt
-                flask run --host=0.0.0.0 > /dev/null 2>&1 &
+                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py > log.txt 2>&1 &
                 '''
             }
 
