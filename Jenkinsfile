@@ -21,15 +21,8 @@ pipeline {
 
                 // Create Venv
                 sh 'python3 -m venv ~/my_environment'
-
-                // activate Venv
-                sh '''
-                . ~/my_environment/bin/activate
-                pip install -r requirements.txt
-                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py > log.txt 2>&1 &
-                '''
             }
-
+            
         }
         stage('Build and run') {
             steps {
