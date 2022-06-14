@@ -17,7 +17,7 @@ pipeline {
         stage('PreReqs') {
             steps {
                 // Get some code from a GitHub repository
-                git branch: 'Dev1', url: 'https://github.com/Sebziel/FunkyFlaskApp.git'
+                git branch: 'JenkinsLocalDev', url: 'https://github.com/Sebziel/FunkyFlaskApp.git'
 
                 // Create Venv
                 sh 'python3 -m venv ~/my_environment'
