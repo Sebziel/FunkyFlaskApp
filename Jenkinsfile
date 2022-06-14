@@ -44,6 +44,7 @@ pipeline {
         }
         stage('Tests') {
             steps {
+                // Activate Venv, running tests
                 sh '''
                 . ~/my_environment/bin/activate
                 pytest | tee testresults.log
@@ -52,6 +53,7 @@ pipeline {
         }
         stage('Post-build') {
             steps {
+                //archiving app logs, requirements used in builiding and test results
                 archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
                 archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
                 archiveArtifacts artifacts: 'record.log', followSymlinks: false
@@ -65,7 +67,11 @@ pipeline {
                 }
             }
             steps{
-                echo 'restarting the app'
+                sh '''
+                pkill -f SimpleApp.py
+                . ~/my_environment/bin/activate
+                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py > log.txt 2>&1 &
+                '''
         }
     }
 }
