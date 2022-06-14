@@ -52,7 +52,9 @@ pipeline {
         }
         stage('Post-build') {
             steps {
-                echo 'Some postbuild stepst like sending e-mail confrmation will be there'
+                archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
+                archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
+                archiveArtifacts artifacts: 'record.log', followSymlinks: false
             }
 
         }
