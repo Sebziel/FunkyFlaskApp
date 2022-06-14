@@ -8,8 +8,8 @@ pipeline {
                     properties([
                         parameters([
                             choice(
-                                choices: ['Build and Run the Application', 'Restart the App'],
-                                description: '''Build and Run the Application - The action will pull the repository, setup the virtual environment, and run the application. If a previous version was already running, restart will be required. Restart the App - Restart the flask process''',
+                                choices: ['Build and test', 'Build run and Restart the App'],
+                                description: '''Restart required if changes have been done in the App''',
                                 name: 'ChooseAction')])])
                 }
             }
@@ -22,7 +22,7 @@ pipeline {
                 // Create Venv
                 sh 'python3 -m venv ~/my_environment'
             }
-            
+
         }
         stage('Build and run') {
             steps {
