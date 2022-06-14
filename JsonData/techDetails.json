@@ -28,5 +28,12 @@
             "FlowersUtilities contains a package of functions to read, write and get specific data from Flowers.json. The script contains a couple of not-used functions as a part of learning how to work with Json files, possible to be used in future",
             "utilities.sh - Simple sh script to help set up the flask environments and create requirements.txt for pip"
         ]
+    },
+    {
+        "section": "Jenkins",
+        "description": "Jenkins CI CD",
+        "details": [
+            "To Do"
+        ]
     }
 ]
