@@ -44,7 +44,10 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                sh 'pytest'
+                sh '''
+                . ~/my_environment/bin/activate
+                sh 'pytest 
+                '''
             }
         }
         stage('Post-build') {
