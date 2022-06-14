@@ -56,7 +56,7 @@ pipeline {
         stage('Restart the app') {
             when {
                 expression {
-                    return params.ChooseAction == "Restart the App"
+                    return params.ChooseAction == "Build run and Restart the App"
                 }
             }
             steps{
