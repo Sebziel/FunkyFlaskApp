@@ -46,7 +46,7 @@ pipeline {
             steps {
                 sh '''
                 . ~/my_environment/bin/activate
-                pytest 
+                pytest | tee testresults.log
                 '''
             }
         }
