@@ -44,7 +44,7 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                echo 'Some Test will hopefully be there'
+                sh 'pytest'
             }
         }
         stage('Post-build') {
