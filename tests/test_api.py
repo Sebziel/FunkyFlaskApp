@@ -11,12 +11,13 @@ baseurl = 'http://localhost:5000/api/card/'
 db_lenght = len(load_db())
 db_range = range(db_lenght)
 
-for db_object in db_range:
-    response = requests.get(baseurl + str(db_object))
-    #get the keys of the dbmock.jsonfile
-    dictkey = response.json().keys()
-    #convert to list and later to str and get the first object
-    key = str(list(dictkey)[0])
-    asserttionMessage = "expected  key = answer , got: "
-    #Check if all cards from dbmock.json have answer=question schema
-    assert key == "answer", asserttionMessage + key
+def test_api():
+    for db_object in db_range:
+        response = requests.get(baseurl + str(db_object))
+        #get the keys of the dbmock.jsonfile
+        dictkey = response.json().keys()
+        #convert to list and later to str and get the first object
+        key = str(list(dictkey)[0])
+        asserttionMessage = "expected  key = answer , got: "
+        #Check if all cards from dbmock.json have answer=question schema
+        assert key == "answer", asserttionMessage + key
