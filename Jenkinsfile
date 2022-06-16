@@ -55,7 +55,7 @@ pipeline {
                 archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
                 archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
                 archiveArtifacts artifacts: 'record.log', followSymlinks: false
-                archiveArtifacts artifacts: 'startup.log', followSymlinks: false
+                archiveArtifacts artifacts: 'startuplog.log', followSymlinks: false
             }
 
         }
