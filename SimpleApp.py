@@ -1,9 +1,10 @@
 from datetime import datetime
+from git import Repo
 from flask import (Flask, render_template, abort, redirect, url_for, request) 
 from model import db, techList, save_db, get_counter_value , update_counter
 import FlowersUtilities
 import logging
-
+import os
 
 app = Flask(__name__)
 logging.basicConfig(filename="record.log", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s : %(message)s')
@@ -16,7 +17,9 @@ def welcome():
     current_time = str(datetime.now())
     counter = get_counter_value()
     app.logger.debug("Setting counter from welcome page to: " + str(counter))
-    return render_template("welcome.html", current_time = current_time, counter = counter)
+    repo = Repo(os.getcwd())
+    branch = repo.active_branch
+    return render_template("welcome.html", current_time = current_time, counter = counter, branch = branch)
 
 @app.route("/card_list")
 def card_list():
