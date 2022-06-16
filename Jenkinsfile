@@ -31,12 +31,14 @@ pipeline {
         }
         stage('Build and run') {
             steps {
-                // activate Venv, install dependencies, run application
+                 // activate Venv, install dependencies, run application                                
+                catchError(buildResult: 'UNSTABLE', message: 'Stage failed', stageResult: 'FAILURE') {
                 sh '''
                 . ~/my_environment/bin/activate
                 pip install -r requirements.txt
                 JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
                 '''
+                }
             }
 
         }
