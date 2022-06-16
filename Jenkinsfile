@@ -35,7 +35,7 @@ pipeline {
                 sh '''
                 . ~/my_environment/bin/activate
                 pip install -r requirements.txt
-                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py > log.txt 2>&1 &
+                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
                 '''
             }
 
@@ -51,10 +51,11 @@ pipeline {
         }
         stage('Post-build') {
             steps {
-                //archiving app logs, requirements used in builiding and test results
+                //archiving app logs, requirements used in builiding and test results and application startup logs
                 archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
                 archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
                 archiveArtifacts artifacts: 'record.log', followSymlinks: false
+                archiveArtifacts artifacts: 'startup.log', followSymlinks: false
             }
 
         }
@@ -68,7 +69,7 @@ pipeline {
                 sh '''
                 pkill -f SimpleApp.py
                 . ~/my_environment/bin/activate
-                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py > log.txt 2>&1 &
+                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
                 '''
         }
     }
