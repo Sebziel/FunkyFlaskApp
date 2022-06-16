@@ -49,16 +49,6 @@ pipeline {
                 '''
             }
         }
-        stage('Post-build') {
-            steps {
-                //archiving app logs, requirements used in builiding and test results and application startup logs
-                archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
-                archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
-                archiveArtifacts artifacts: 'record.log', followSymlinks: false
-                archiveArtifacts artifacts: 'startuplog.log', followSymlinks: false
-            }
-
-        }
         stage('Restart the app') {
             when {
                 expression {
@@ -72,6 +62,16 @@ pipeline {
                 JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
                 '''
         }
-    }
+        }
+            stage('Post-build') {
+            steps {
+                //archiving app logs, requirements used in builiding and test results and application startup logs
+                archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
+                archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
+                archiveArtifacts artifacts: 'record.log', followSymlinks: false
+                archiveArtifacts artifacts: 'startuplog.txt', followSymlinks: false
+            }
+
+        }
 }
 }
