@@ -10,7 +10,12 @@ pipeline {
                             choice(
                                 choices: ['Build and test', 'Build run and Restart the App'],
                                 description: '''Restart required if changes have been done in the App''',
-                                name: 'ChooseAction')])])
+                                name: 'ChooseAction'),
+                            choice(
+                                choices: ['JenkinsLocalDev', 'JenkinsDev'],
+                                description: '''Branch to kick-off the build''',
+                                name: 'Branch')
+                            ])])
                 }
             }
         }
