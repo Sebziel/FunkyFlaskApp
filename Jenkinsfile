@@ -44,11 +44,13 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                // Activate Venv, running tests
-                sh '''
-                . ~/my_environment/bin/activate
-                pytest | tee testresults.log
-                '''
+                catchError(buildResult: 'UNSTABLE', message: 'Stage failed', stageResult: 'FAILURE') {
+                    // Activate Venv, running tests
+                    sh '''
+                    . ~/my_environment/bin/activate
+                    pytest | tee testresults.log
+                    '''
+                }
             }
         }
 }
