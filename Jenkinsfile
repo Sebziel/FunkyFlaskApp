@@ -51,22 +51,15 @@ pipeline {
                 '''
             }
         }
-        stage('Restart the app') {
-            when {
-                expression {
-                    return params.ChooseAction == "Build run and Restart the App"
-                }
-            }
-            steps{
-                sh '''
-                pkill -f SimpleApp.py
-                . ~/my_environment/bin/activate
-                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
-                '''
-            }
-        }
 }
     post {
+        success {
+            sh '''
+            pkill -f SimpleApp.py
+            . ~/my_environment/bin/activate
+            JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
+            '''            
+        }
         always {
             //archiving app logs, requirements used in builiding and test results and application startup logs
             archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
