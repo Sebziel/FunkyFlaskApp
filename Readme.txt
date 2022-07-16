@@ -11,7 +11,7 @@
 - Try to run the app manually
 - Run initiall tests on CI/CD
 - create local multipass VM
-
+- Create a shared library for Jenkins pipelines
 
 #todos non-app (nice to have)
 - Add AMI for base Jenkins + Java + awscli along with separate cloud formation templates
