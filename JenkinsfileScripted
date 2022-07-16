@@ -8,6 +8,10 @@ pipeline {
                     properties([
                         parameters([
                             choice(
+                                choices: ['Build and test', 'Build run and Restart the App'],
+                                description: '''Restart required if changes have been done in the App''',
+                                name: 'ChooseAction'),
+                            choice(
                                 choices: ['JenkinsLocalDev', 'JenkinsLocal'],
                                 description: '''Branch to kick-off the build''',
                                 name: 'Branch')
@@ -40,31 +44,36 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                catchError(buildResult: 'UNSTABLE', message: 'Stage failed', stageResult: 'FAILURE') {
-                    // Activate Venv, running tests
-                    sh '''
-                    . ~/my_environment/bin/activate
-                    pytest --junit-xml=testresults
-                    '''
-                }
-                junit 'testresults'
+                // Activate Venv, running tests
+                sh '''
+                . ~/my_environment/bin/activate
+                pytest | tee testresults.log
+                '''
             }
         }
+        stage('Restart the app') {
+            when {
+                expression {
+                    return params.ChooseAction == "Build run and Restart the App"
+                }
+            }
+            steps{
+                sh '''
+                pkill -f SimpleApp.py
+                . ~/my_environment/bin/activate
+                JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
+                '''
+        }
+        }
+            stage('Post-build') {
+            steps {
+                //archiving app logs, requirements used in builiding and test results and application startup logs
+                archiveArtifacts artifacts: 'testresults.log', followSymlinks: false
+                archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
+                archiveArtifacts artifacts: 'record.log', followSymlinks: false
+                archiveArtifacts artifacts: 'startuplog.txt', followSymlinks: false
+            }
+
+        }
 }
-    post {
-        success {
-            sh '''
-            pkill -f SimpleApp.py
-            . ~/my_environment/bin/activate
-            JENKINS_NODE_COOKIE=dontKillMe nohup python3 SimpleApp.py >> startuplog.txt 2>&1 &
-            '''            
-        }
-        always {
-            //archiving app logs, requirements used in builiding and test results and application startup logs
-            archiveArtifacts artifacts: 'testresults', followSymlinks: false
-            archiveArtifacts artifacts: 'requirements.txt', followSymlinks: false
-            archiveArtifacts artifacts: 'record.log', followSymlinks: false
-            archiveArtifacts artifacts: 'startuplog.txt', followSymlinks: false
-        }
-    }
 }
